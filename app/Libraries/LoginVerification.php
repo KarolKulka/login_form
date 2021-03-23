@@ -8,6 +8,11 @@ use App\Models\UserModel;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Session\Session;
 
+/**
+ * Class LoginVerification
+ * Class for verification if user is logged in
+ * @package App\Libraries
+ */
 class LoginVerification
 {
     /**
@@ -27,6 +32,8 @@ class LoginVerification
     }
 
     /**
+     * Method verify if user is logged in by checking if username and md5 hash of login date exists in database
+     *
      * @return bool
      */
     public function verify(): bool

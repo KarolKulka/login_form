@@ -6,10 +6,12 @@ namespace App\Controllers;
 use App\Entities\UserEntity;
 use App\Libraries\LoginVerification;
 use App\Models\UserModel;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use DateTime;
 use Psr\Log\LoggerInterface;
+use ReflectionException;
 
 class Home extends BaseController
 {
@@ -53,6 +55,11 @@ class Home extends BaseController
         $this->loginVerification = new LoginVerification();
     }
 
+    /**
+     * Starting method rendering login form or if user is logged in then it show log out button
+     *
+     * @return string
+     */
     public function index()
     {
         $data['validationErrors'] = $this->checkSubmitAndAccessErrors();
@@ -61,6 +68,13 @@ class Home extends BaseController
         return $this->renderView(is_null($data['user']) ? 'start' : 'logged_start', $data);
 	}
 
+    /**
+     * Method running validation for form inputs.
+     * If validation is ok than user is logged in and proper data is saved to database and to session
+     *
+     * @return RedirectResponse
+     * @throws ReflectionException
+     */
 	public function login()
     {
         if ($this->validation->run(
@@ -86,6 +100,8 @@ class Home extends BaseController
     }
 
     /**
+     * verify if user is logged in via LoginVerification class
+     *
      * @return UserEntity|null
      */
     private function checkIfLoggedIn(): ?UserEntity
@@ -102,6 +118,11 @@ class Home extends BaseController
         return $userModel->getUserByUsernameAndHashedLogInDate($sessionUsername, $sessionLogInTime);
     }
 
+    /**
+     * Render page for logged users
+     *
+     * @return string
+     */
     public function logged()
     {
         $user = $this->checkIfLoggedIn();
@@ -109,6 +130,11 @@ class Home extends BaseController
         return $this->renderView('logged', ['user' => $user]);
     }
 
+    /**
+     * Logout for users
+     *
+     * @return RedirectResponse
+     */
     public function logout()
     {
         $this->session->destroy();

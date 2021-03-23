@@ -68,7 +68,7 @@ class BaseController extends Controller
     }
 
     /**
-     * Base method for view render
+     * Method for view render
      *
      * @param string $viewName
      * @param array $viewData
@@ -80,6 +80,8 @@ class BaseController extends Controller
     }
 
     /**
+     * Check if exists any errors from form validation or route filter
+     *
      * @return array|null
      */
     protected function checkSubmitAndAccessErrors(): ?array

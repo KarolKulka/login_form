@@ -6,18 +6,30 @@ namespace App\Entities;
 use CodeIgniter\Entity;
 use DateTime;
 
+/**
+ * User entity class
+ *
+ * @package App\Entities
+ */
 class UserEntity extends Entity
 {
     protected $casts = [
         'id' => 'integer'
     ];
 
+    /**
+     * Return user id
+     *
+     * @return mixed
+     */
     public function getId()
     {
         return $this->attributes['id'];
     }
 
     /**
+     * Return user username
+     *
      * @return string
      */
     public function getUsername(): string
@@ -26,6 +38,8 @@ class UserEntity extends Entity
     }
 
     /**
+     * Return raw user password hash
+     *
      * @return string
      */
     public function getPassword(): string
@@ -34,6 +48,8 @@ class UserEntity extends Entity
     }
 
     /**
+     * Verify is given password equals password from db
+     *
      * @param string $passwordToVerify
      * @return bool
      */
@@ -43,20 +59,28 @@ class UserEntity extends Entity
     }
 
     /**
-     * @param bool $formated
+     * Returns DateTime object created from last log in field value
+     *
      * @return DateTime
      */
     public function getLastLogIn(): DateTime
     {
-        return DateTime::createFromFormat('Y-m-d H:i:s', $this->attributes['last_log_in']);
+        return DateTime::createFromFormat('Y-m-d H:i:s', $this->attributes['last_log_in'] ?? date('Y-m-d H:i:s'));
     }
 
+    /**
+     * Returns last log in formated
+     *
+     * @return string
+     */
     public function getLastLogInFormated(): string
     {
         return $this->getLastLogIn()->format('Y-m-d H:i:s');
     }
 
     /**
+     * Set current time as last log in time
+     *
      * @param DateTime $dateTime
      * @return self
      */

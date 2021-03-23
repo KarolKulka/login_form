@@ -10,6 +10,12 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Session\Session;
 use CodeIgniter\Config\Services;
 
+/**
+ * Class UserFilter
+ * Filter class to verify if user is logged in and have access to current url
+ *
+ * @package App\Filters
+ */
 class UserFilter implements FilterInterface
 {
     /**
@@ -23,6 +29,8 @@ class UserFilter implements FilterInterface
     }
 
     /**
+     * Method verify if user is logged in by LoginVerification Class before he visit url
+     *
      * @inheritDoc
      */
     public function before(RequestInterface $request, $arguments = null)
