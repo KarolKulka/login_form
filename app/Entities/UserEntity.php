@@ -69,11 +69,11 @@ class UserEntity extends Entity
     }
 
     /**
-     * Returns last log in formated
+     * Returns last log in formatted
      *
      * @return string
      */
-    public function getLastLogInFormated(): string
+    public function getLastLogInFormatted(): string
     {
         return $this->getLastLogIn()->format('Y-m-d H:i:s');
     }
@@ -81,10 +81,10 @@ class UserEntity extends Entity
     /**
      * Set current time as last log in time
      *
-     * @param DateTime $dateTime
+     * @param DateTime|null $dateTime
      * @return self
      */
-    public function setLastLogIn(DateTime $dateTime = null)
+    public function setLastLogIn(DateTime $dateTime = null): self
     {
         if (is_null($dateTime)){
             $dateTime = new DateTime();

@@ -26,7 +26,7 @@ class UserModel extends Model
     protected $useTimestamps = false;
 
     /**
-     * Find databse row with given username
+     * Find database row with given username
      *
      * @param string $username
      * @return array|UserEntity|null
@@ -40,7 +40,7 @@ class UserModel extends Model
      * Find database row with given username and where md5 hash of last_log_in field equals given parameters
      *
      * @param string $username
-     * @param string $sessionlogInTime
+     * @param string $sessionLogInTime
      * @return array|UserEntity|null
      */
     public function getUserByUsernameAndHashedLogInDate(string $username, string $sessionLogInTime)
@@ -49,7 +49,7 @@ class UserModel extends Model
     }
 
     /**
-     * Save user to dabase
+     * Save user to database
      *
      * @param UserEntity $userEntity
      * @throws \ReflectionException

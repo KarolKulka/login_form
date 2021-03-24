@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Filters;
 
+use App\Libraries\AuthService;
 use App\Libraries\LoginVerification;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
@@ -29,15 +30,15 @@ class UserFilter implements FilterInterface
     }
 
     /**
-     * Method verify if user is logged in by LoginVerification Class before he visit url
+     * Method verify if user is logged in by AuthService Class before he visit url
      *
      * @inheritDoc
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        $loginVerification = new LoginVerification();
+        $authService = new AuthService();
 
-        if (!$loginVerification->verify()) {
+        if (!$authService->verifyLoggedUser()) {
             $this->session->set('filterAccessError', "You don't have access to this resource. Log in first!");
             return redirect('home.home');
         }

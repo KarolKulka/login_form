@@ -1,19 +1,20 @@
 <?php
-
 declare(strict_types = 1);
 
 namespace App\Libraries;
 
+use App\Entities\UserEntity;
 use App\Models\UserModel;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Session\Session;
+use ReflectionException;
 
 /**
- * Class LoginVerification
- * Class for verification if user is logged in
+ * Class AuthService
+ * Authorization class
  * @package App\Libraries
  */
-class LoginVerification
+class AuthService
 {
     /**
      * @var Session
@@ -23,12 +24,33 @@ class LoginVerification
     /**
      * @var UserModel
      */
-    protected $userModel;
+    protected UserModel $userModel;
 
     public function __construct()
     {
-        $this->userModel = model('App\Models\UserModel');
         $this->session = Services::session();
+        $this->userModel = model('App\Models\UserModel');
+    }
+
+    /**
+     * @param string $username
+     * @return bool
+     * @throws ReflectionException
+     */
+    public function LogInUser(string $username): bool
+    {
+        /** @var UserEntity $user */
+        $user = $this->userModel->getUserByUsername($username);
+        if (empty($user)){
+            return false;
+        }
+        $user->setLastLogIn();
+        $this->userModel->saveUser($user);
+
+        $this->session->set('log_in_username', $user->getUsername());
+        $this->session->set('log_in_time', md5($user->getLastLogInFormatted()));
+
+        return true;
     }
 
     /**
@@ -36,7 +58,7 @@ class LoginVerification
      *
      * @return bool
      */
-    public function verify(): bool
+    public function verifyLoggedUser(): bool
     {
         $sessionUsername = filter_var($this->session->get('log_in_username'), FILTER_SANITIZE_STRING);
         $sessionLogInTime = filter_var($this->session->get('log_in_time'), FILTER_SANITIZE_STRING);

@@ -9,7 +9,7 @@ use App\Models\UserModel;
 class CustomValidation
 {
     /**
-     * Method for validating user data submited via log in form
+     * Method for validating user data submitted via log in form
      *
      * @param string $str
      * @param string $username

@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace App\Controllers;
 
 use App\Entities\UserEntity;
+use App\Libraries\AuthService;
 use App\Libraries\LoginVerification;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use DateTime;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
 
@@ -31,9 +31,9 @@ class Home extends BaseController
     protected $logger;
 
     /**
-     * @var LoginVerification
+     * @var AuthService
      */
-    protected LoginVerification $loginVerification;
+    protected AuthService $authService;
 
     /**
      * Constructor.
@@ -52,7 +52,7 @@ class Home extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->loginVerification = new LoginVerification();
+        $this->authService = new AuthService();
     }
 
     /**
@@ -81,32 +81,23 @@ class Home extends BaseController
             $this->request->getPost(null, FILTER_SANITIZE_STRING),
             'userLogin'
         )) {
-            /** @var UserModel $userModel */
-            $userModel = model('App\Models\UserModel');
-            /** @var UserEntity $user */
-            $user = $userModel->getUserByUsername($this->request->getPost('username', FILTER_SANITIZE_STRING));
-            $user->setLastLogIn();
-            $userModel->saveUser($user);
-
-            $this->session->set('log_in_username', $user->getUsername());
-            $loginDate = new DateTime();
-            $this->session->set('log_in_time', md5($user->getLastLogInFormated()));
-            return redirect('home.logged');
+            if ($this->authService->LogInUser($this->request->getPost('username', FILTER_SANITIZE_STRING))){
+                return redirect('home.logged');
+            }
         }
 
         session()->set('validationErrors', $this->validation->getErrors());
         return redirect()->route('home.login');
-
     }
 
     /**
-     * verify if user is logged in via LoginVerification class
+     * verify if user is logged in via AuthService class
      *
      * @return UserEntity|null
      */
     private function checkIfLoggedIn(): ?UserEntity
     {
-        if (!$this->loginVerification->verify()){
+        if (!$this->authService->verifyLoggedUser()){
             return null;
         }
 
@@ -141,6 +132,4 @@ class Home extends BaseController
 
         return redirect()->route('home.home');
     }
-
-
 }
