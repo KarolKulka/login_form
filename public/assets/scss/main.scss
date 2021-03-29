@@ -1,0 +1,74 @@
+body
+{
+  min-height  : 100vh;
+  display     : flex;
+  align-items : center;
+
+  .body-background
+  {
+    position : fixed;
+    width    : 100vw;
+    height   : 100vh;
+    top      : 0;
+    left     : 0;
+    z-index  : -1;
+    filter   : brightness(0.6) grayscale(0.4);
+
+    .body-background-image
+    {
+      width      : 100%;
+      height     : 100%;
+      object-fit : cover;
+    }
+  }
+
+  .main-container
+  {
+    display : flex;
+    width   : 100%;
+
+    header
+    {
+      font-family : 'Roboto', sans-serif;
+
+      .main-header
+      {
+        font-size   : 3rem;
+        font-weight : 700;
+        color       : #e8e8e8;
+      }
+
+      .sub-header
+      {
+        font-size   : 1.2rem;
+        font-weight : 500;
+        font-style  : italic;
+        color       : #dfdfdf;
+        text-align: center;
+      }
+    }
+
+    .validation-errors
+    {
+      background-color : rgba(0, 0, 0, 0.5);
+    }
+
+    .form-group
+    {
+      label
+      {
+        color : #fff;
+      }
+
+      .form-control {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      small
+      {
+        font-weight : 700;
+        font-size   : 0.9rem;
+      }
+    }
+  }
+}

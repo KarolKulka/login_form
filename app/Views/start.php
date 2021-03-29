@@ -1,12 +1,12 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 ">
-            <h1 class="text-center">Welcome!</h1>
-            <p class="text-center">To see more please log in</p>
+    <header class="row">
+        <div class="col-auto mx-auto">
+            <h1 class="main-header">Welcome!</h1>
+            <p class="sub-header">To see more please log in</p>
         </div>
-    </div>
+    </header>
     <?php if (!empty($validationErrors)) { ?>
-        <div class="border border-danger pt-3 pb-2 mb-5">
+        <div class="border border-danger pt-3 pb-2 mb-5 validation-errors">
             <ul class="fa-ul">
                 <?php foreach ( $validationErrors as $error ) { ?>
                     <li class="text-danger"><span class="fa-li"><i class="fas fa-exclamation-circle"></i></span><?= esc($error) ?></li>

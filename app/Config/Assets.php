@@ -33,6 +33,7 @@ class Assets extends \Tatter\Assets\Config\Assets
     public $routes = [
         '' => [
             'css/bootstrap.min.css',
+            'css/main.min.css',
             'js/jquery.min.js',
             'js/bootstrap.bundle.min.js',
             'js/own.js',
